@@ -1,5 +1,4 @@
 {
-  "name": "elabs / CosyVoice 2 TTS",
   "description": "CosyVoice 2 is a next-gen TTS model with natural prosody and voice cloning. Supports multi-speaker synthesis, emotion control, and voice cloning from short audio samples. API: POST JSON with {text, reference_audio, voice, emotion} -> {audio_base64, text, voice, wall_time_s}. GPU: requires >=8GB VRAM (RTX 4090, L40S, A5000+).",
   "task": "text-to-audio",
   "category": "audio",
@@ -10,7 +9,15 @@
     "gpuCount": 1,
     "gpuIds": "ADA_24,ADA_48,AMPERE_48",
     "allowedCudaVersions": [
-      "12.8", "12.7", "12.6", "12.5", "12.4", "12.3", "12.2", "12.1", "12.0"
+      "12.8",
+      "12.7",
+      "12.6",
+      "12.5",
+      "12.4",
+      "12.3",
+      "12.2",
+      "12.1",
+      "12.0"
     ],
     "env": [
       {
@@ -34,5 +41,7 @@
         }
       }
     ]
-  }
+  },
+  "title": "elabs / CosyVoice 2 TTS",
+  "iconUrl": "https://pub-796a08821c1c483aaf5e274e0d03e350.r2.dev/studio-jobs/cosyvoice/demo-1.png"
 }
