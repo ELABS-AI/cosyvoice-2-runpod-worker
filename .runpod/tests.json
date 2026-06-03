@@ -1,0 +1,35 @@
+{
+  "tests": [
+    {
+      "name": "Fast inference (short text, no voice clone)",
+      "config": {
+        "gpuTypeId": "NVIDIA GeForce RTX 4090",
+        "gpuCount": 1,
+        "allowedCudaVersions": ["12.4"]
+      },
+      "input": {
+        "input": {
+          "text": "Hello, welcome to CosyVoice 2 text-to-speech.",
+          "voice": "default",
+          "emotion": "neutral"
+        }
+      }
+    },
+    {
+      "name": "Quality voice cloning (with reference audio URL)",
+      "config": {
+        "gpuTypeId": "NVIDIA GeForce RTX 4090",
+        "gpuCount": 1,
+        "allowedCudaVersions": ["12.4"]
+      },
+      "input": {
+        "input": {
+          "text": "This is a sample of voice cloning with CosyVoice 2, demonstrating natural prosody and emotion control.",
+          "voice": "clone",
+          "emotion": "happy",
+          "reference_audio": "https://example.com/sample_reference.wav"
+        }
+      }
+    }
+  ]
+}

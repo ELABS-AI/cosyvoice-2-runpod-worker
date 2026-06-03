@@ -1,0 +1,28 @@
+# CosyVoice 2 RunPod Serverless — Python Requirements
+# Pinned for reproducibility.
+
+# Core deps
+torch==2.6.0
+torchvision==0.21.0
+--extra-index-url https://download.pytorch.org/whl/cu124
+
+# CosyVoice 2
+cosyvoice>=2.0.0
+transformers>=4.46.0
+torchaudio>=2.6.0
+
+# Audio handling
+scipy>=1.14.0
+numpy>=1.26.0
+soundfile>=0.12.1
+
+# RunPod serverless
+runpod==1.7.5
+
+# HTTP client (for reference audio download)
+httpx==0.28.1
+
+# Utilities
+huggingface_hub>=0.25.0
+safetensors>=0.5.3
+tqdm>=4.67.1
