@@ -1,6 +1,5 @@
 {
   "description": "CosyVoice 2 is a next-gen TTS model with natural prosody and voice cloning. Supports multi-speaker synthesis, emotion control, and voice cloning from short audio samples. API: POST JSON with {text, reference_audio, voice, emotion} -> {audio_base64, text, voice, wall_time_s}. GPU: requires >=8GB VRAM (RTX 4090, L40S, A5000+).",
-  "task": "text-to-audio",
   "category": "audio",
   "type": "serverless",
   "config": {
