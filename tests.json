@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Default voice TTS",
+    "input": {
+      "text": "Welcome to CosyVoice 2. This is a demonstration of zero-shot voice cloning technology.",
+      "voice": "default",
+      "emotion": "neutral",
+      "speed": 1.0
+    }
+  },
+  {
+    "name": "Happy emotion test",
+    "input": {
+      "text": "What a wonderful day! I am so excited to share this with you.",
+      "voice": "default",
+      "emotion": "happy",
+      "speed": 1.1
+    }
+  }
+]
