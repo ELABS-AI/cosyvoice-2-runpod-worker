@@ -1,94 +1,87 @@
 # elabs / CosyVoice 2 TTS
 
-[![Deploy on RunPod](https://img.shields.io/badge/RunPod-Deploy-orange?logo=runpod)](https://console.runpod.io/hub)
-[![CUDA 12.4](https://img.shields.io/badge/CUDA-12.4-green)](https://developer.nvidia.com/cuda-toolkit)
-[![Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue)](https://opensource.org/licenses/Apache-2.0)
+Zero-shot voice cloning text-to-speech using Alibaba's CosyVoice 2. Clone any voice from a 3-10 second audio sample.
 
-**Next-generation TTS with zero-shot voice cloning** using CosyVoice 2. Clone any voice from a 3-10 second reference audio sample. Natural prosody, emotion control, multi-language support.
+[![Docker Build](https://github.com/ELABS-AI/cosyvoice-2-runpod-worker/actions/workflows/build.yml/badge.svg)](https://github.com/ELABS-AI/cosyvoice-2-runpod-worker/actions/workflows/build.yml)
 
-![CosyVoice 2](https://pub-796a08821c1c483aaf5e274e0d03e350.r2.dev/hub-icons/cosyvoice.svg)
-
-## Highlights
-
-- Zero-shot voice cloning -- clone any voice from 3-10s audio
-- Natural prosody -- human-like rhythm and intonation
-- Emotion control -- neutral, happy, sad, angry, surprised
-- Multi-speaker -- multiple built-in voices included
-- Apache-2.0 -- commercial use permitted
+---
 
 ## Quick Start
 
-```bash
-# Built-in voice
-curl -X POST https://api.runpod.ai/v2/{ENDPOINT_ID}/run \
-  -H "Authorization: Bearer $RUNPOD_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"input": {"text": "Hello, this is CosyVoice 2.", "voice": "default"}}'
+Deploy this worker on [RunPod Serverless](https://www.runpod.io/serverless) using the **Deploy on RunPod** button in the Hub, or manually with the Docker image:
+
+```
+ghcr.io/elabs-ai/cosyvoice-2-runpod-worker:latest
 ```
 
-## API
+---
 
-### Input (built-in voice)
+## Environment Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `MODEL_ID` | `iic/CosyVoice2-0.5B` | HuggingFace model ID for CosyVoice 2 |
+| `HF_HOME` | `/runpod-volume/models/huggingface` | HuggingFace cache directory |
+| `HUGGINGFACE_HUB_CACHE` | `/runpod-volume/models/huggingface/hub` | HuggingFace hub cache |
+| `PYTORCH_CUDA_ALLOC_CONF` | `expandable_segments:True` | CUDA memory allocator config |
+
+> **Note:** `HF_HOME` and `HUGGINGFACE_HUB_CACHE` should point to a RunPod Network Volume mount path for model caching between runs.
+
+---
+
+## API Reference
+
+### Input
 
 ```json
-{
-  "input": {
-    "text": "Hello, this is CosyVoice 2 text-to-speech.",
-    "voice": "default",
-    "emotion": "neutral",
-    "speed": 1.0
-  }
-}
-```
-
-### Input (voice cloning)
-
-```json
-{
-  "input": {
-    "text": "This text will be spoken in the cloned voice.",
-    "reference_audio": "<base64 WAV, 3-10 seconds>",
-    "reference_text": "Exact transcription of the reference audio."
-  }
-}
+{"input": {"text": "Hello world!", "reference_audio_b64": "<base64 WAV/MP3 3-10s>"}}
 ```
 
 ### Output
 
 ```json
-{
-  "audio_base64": "<base64 WAV>",
-  "text": "Hello, this is CosyVoice 2 text-to-speech.",
-  "voice": "default",
-  "emotion": "neutral",
-  "wall_time_s": 1.2
-}
+{"audio_b64": "<base64 WAV>", "wall_time_s": 3.2}
 ```
 
-### Parameters
+---
 
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `text` | string | required | Text to synthesize (max 5000 chars) |
-| `voice` | string | `"default"` | Built-in voice ID |
-| `reference_audio` | string | optional | Base64 WAV for voice cloning |
-| `reference_text` | string | optional | Transcription of reference audio |
-| `emotion` | string | `"neutral"` | "neutral", "happy", "sad", "angry", "surprised" |
-| `speed` | float | `1.0` | Speaking rate (0.5-2.0) |
+## Usage Examples
 
-## Voice Cloning Tips
+### Python (runpod SDK)
 
-1. Use 3-10 seconds of clean audio (no background noise)
-2. Provide the exact transcription of the reference audio
-3. WAV format, 16kHz mono recommended
-4. Reference audio should match target language for best results
+```python
+import runpod
+import base64
+
+client = runpod.AsyncioEndpointClient("cosyvoice-2-runpod-worker")
+result = await client.run({"input": {"text": "Hello world!", "reference_audio_b64": "<base64 WAV/MP3 3-10s>"}})
+print(result)
+```
+
+### cURL
+
+```bash
+curl -X POST https://api.runpod.ai/v2/YOUR_ENDPOINT_ID/run \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"input": {"text": "Hello world!", "reference_audio_b64": "<base64 WAV/MP3 3-10s>"}}'
+
+```
+
+---
 
 ## GPU Requirements
 
-- Minimum: >=8GB VRAM
-- Recommended: RTX 4090, L40S, A5000 (>=16GB)
-- CUDA: 12.4+
+RTX 3090+ (24GB VRAM) | ~3-8s per utterance | Apache 2.0 license
+
+---
 
 ## License
 
-Apache-2.0. Based on [FunAudioLLM/CosyVoice2-0.5B](https://huggingface.co/FunAudioLLM/CosyVoice2-0.5B).
+Apache 2.0 — See [LICENSE](LICENSE)
+
+---
+
+## Built by [E-Labs AI](https://www.elabsai.com)
+
+Part of the E-Labs AI Studio serverless model fleet. Visit [elabsai.com](https://www.elabsai.com) to use these models in a hosted UI.
